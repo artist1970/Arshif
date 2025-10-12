@@ -1,6 +1,5 @@
 ✅ README.md for Arshif
 
-This file introduces your project to others. Here's a complete, beautiful starter README.md for Arshif — already styled for GitHub Markdown:
 
 # 🌟 Arshif – The Sovereign Archive
 
@@ -12,7 +11,7 @@ Designed with a parchment aesthetic, symbolic scrolls, and AI-integrated knowled
 
 ## 📚 Features
 
-- 🧒 **Youth Access:** Free, guided, age-appropriate library access
+- 🧒 **Youth Access:** Free, age-appropriate library access
 - 🎓 **Student Tier:** Research tools, curated scrolls, and literacy support
 - 👩‍🏫 **Educator Tier:** Curriculum archives, annotations, and advanced tools
 - 🌟 **Custodian Tier:** Full access to sealed archives and Codex creation
@@ -36,13 +35,3 @@ Designed with a parchment aesthetic, symbolic scrolls, and AI-integrated knowled
 - Planned: GitHub Pages, Firebase, IPFS mirror
 
 ---
-
-## 🔧 Local Development
-
-To run Arshif locally:
-
-```bash
-git clone https://github.com/YOUR-USERNAME/arshif.git
-cd arshif
-npm install
-npm run dev
