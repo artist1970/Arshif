@@ -1,0 +1,17 @@
+{
+  "emotions": [
+    "anticipation", "isolation", "intensity", "defiance", "rejection", "vulnerability", "inspiration", "rage", "grief", "release",
+    "transformation", "awe", "envy", "temptation", "ambition", "shame", "remorse", "forgiveness", "shock", "clarity",
+    "conflict", "jealousy", "suspense", "delirium", "doubt", "fearlessness", "relief", "uncertainty", "dread", "satisfaction",
+    "desperation", "faith", "numbness", "introspection", "trust", "nostalgia", "reconciliation", "transcendence", "loss", "yearning",
+    "exhilaration", "vulnerability", "catharsis", "loneliness", "tragedy", "ambivalence", "hope", "melancholy", "serenity", "sacrifice",
+    "triumph", "emptiness", "release", "resolve", "discovery", "healing", "resignation", "awakening", "acceptance", "determination",
+    "mystery", "shock", "injustice", "admiration", "resilience", "patience", "honor", "pride", "grace", "revulsion",
+    "sympathy", "pity", "regret", "tenderness", "joy", "sadness", "loneliness", "love", "peace", "fear",
+    "disbelief", "compassion", "sorrow", "trust", "gratitude", "comfort", "courage", "amazement", "liberation", "unity",
+    "hesitation", "connection", "forgiveness", "euphoria", "pain", "guilt", "awe", "reverence", "calm", "curiosity",
+    "wonder", "faithfulness", "acceptance", "mourning", "completion", "suspicion", "isolation", "urgency", "healing", "awakening",
+    "rage", "hunger", "passion", "stillness", "compromise", "alignment", "illumination", "gracefulness", "openness", "empathy",
+    "surrender", "desire", "emptiness", "bliss", "harmony", "restlessness", "balance", "focus", "freedom", "belonging"
+  ]
+}
