@@ -1,0 +1,49 @@
+{
+  "collection": "Arshif Emotions Library",
+  "version": "1.0.0",
+  "description": "A unified emotional intelligence data bank for art, education, professional, and wellness applications under the Archaemenes Academy suite.",
+  "categories": {
+    "art_focused": {
+      "file": "emotions_art-focused.json",
+      "purpose": "Creative and aesthetic emotions for artists, writers, and dreamers.",
+      "examples": ["inspired", "awe", "melancholy", "wonder", "joy"]
+    },
+    "spiritual": {
+      "file": "emotions_spiritual.json",
+      "purpose": "Transcendent and inner peace emotions used for mindfulness, faith, and meditation contexts.",
+      "examples": ["serenity", "grace", "devotion", "enlightenment", "forgiveness"]
+    },
+    "elementary": {
+      "file": "emotions_elementary.json",
+      "purpose": "Simple, clear emotions for children in Pre-K to Grade 5, promoting emotional literacy and empathy.",
+      "examples": ["happy", "sad", "curious", "kind", "brave"]
+    },
+    "growth": {
+      "file": "emotions_middle.json",
+      "purpose": "Encouraging and affirming emotions for middle school students developing self-esteem and identity.",
+      "examples": ["hopeful", "confident", "curious", "resilient", "valued"]
+    },
+    "special": {
+      "file": "emotions_special.json",
+      "purpose": "Gentle and sensory-safe emotional vocabulary for students with cognitive or emotional challenges.",
+      "examples": ["calm", "safe", "comfortable", "loved", "supported"]
+    },
+    "professional": {
+      "file": "emotions_professional.json",
+      "purpose": "Emotion set for parents, educators, and business professionals emphasizing balance, clarity, and leadership.",
+      "examples": ["focused", "motivated", "balanced", "understanding", "productive"]
+    },
+    "disciplinary": {
+      "file": "emotions_disciplinary.json",
+      "purpose": "Constructive and redirective emotions for firm but fair communication in guidance or classroom discipline.",
+      "examples": ["responsible", "accountable", "calm", "respectful", "self-aware"]
+    }
+  },
+  "metadata": {
+    "author": "Archaemenes Academy Emotional Intelligence Lab",
+    "license": "Archaemenes Academy All Rights Reserved",
+    "last_updated": "2025-10-17",
+    "maintainer": "Artist Jenny Pearl",
+    "notes": "Each emotional category can be dynamically loaded into the Creative Spark app or lesson builder depending on context and student profile."
+  }
+}
