@@ -1,0 +1,13 @@
+{
+  "emotions": [
+    "happy", "sad", "excited", "calm", "angry", "scared", "proud", "silly", "curious", "kind",
+    "thankful", "brave", "peaceful", "hopeful", "friendly", "lonely", "worried", "surprised", "tired", "joyful",
+    "shy", "helpful", "confused", "gentle", "careful", "loved", "grateful", "strong", "sorry", "relaxed",
+    "energetic", "focused", "creative", "caring", "fair", "honest", "playful", "quiet", "forgiving", "safe",
+    "included", "thoughtful", "excited", "patient", "cheerful", "helpful", "curious", "calm", "hopeful", "loving",
+    "adventurous", "relieved", "inspired", "peaceful", "thankful", "proud", "joyful", "kindhearted", "friendly", "brave",
+    "happy", "interested", "relaxed", "caring", "hopeful", "playful", "gentle", "helpful", "creative", "calm",
+    "silly", "surprised", "thankful", "safe", "loved", "joyful", "patient", "focused", "honest", "peaceful",
+    "excited", "friendly", "kind", "helpful", "brave", "curious", "thoughtful", "grateful", "calm", "joyful"
+  ]
+}
