@@ -1,0 +1,80 @@
+<!-- Grammar Modal -->
+<div class="modal" id="grammarModal" role="dialog" aria-modal="true" aria-labelledby="grammarTitle" style="display:none;">
+  <div class="modal-backdrop" id="grammarBackdrop"></div>
+  <div class="modal-content">
+    <button class="modal-close" id="grammarCloseBtn">✕</button>
+    <h3 id="grammarTitle">Grammar & Spell Check</h3>
+
+    <textarea id="grammarInput" placeholder="Type or paste text here..." rows="6"></textarea>
+    <button id="grammarCheckBtn">Check Grammar</button>
+
+    <div id="grammarOutput" class="output"></div>
+  </div>
+</div>
+
+<style>
+  /* Base modal layout */
+  .modal { position: fixed; inset: 0; display:flex; align-items:center; justify-content:center; z-index:1000; }
+  .modal-backdrop {
+    position:absolute; inset:0; background:rgba(0,0,0,0.5);
+    backdrop-filter: blur(3px);
+  }
+  .modal-content {
+    position:relative;
+    z-index:1;
+    background:#fff;
+    border-radius:12px;
+    padding:20px;
+    max-width:500px;
+    width:90%;
+    box-shadow:0 10px 30px rgba(0,0,0,0.25);
+    animation:fadeIn 0.25s ease;
+  }
+  .modal-close {
+    position:absolute; top:10px; right:10px;
+    background:none; border:none; font-size:20px; cursor:pointer;
+  }
+  #grammarInput { width:100%; border-radius:8px; border:1px solid #ccc; padding:10px; margin-top:10px; font-family:inherit; }
+  #grammarCheckBtn {
+    margin-top:8px; background:#4f46e5; color:white; border:none;
+    padding:8px 12px; border-radius:8px; cursor:pointer;
+  }
+  .output { margin-top:14px; padding:10px; border-radius:8px; background:#f9fafb; min-height:60px; font-size:14px; }
+  @keyframes fadeIn { from{opacity:0; transform:translateY(-10px);} to{opacity:1; transform:translateY(0);} }
+</style>
+
+<script>
+  // --- Modal Controls ---
+  const grammarModal = document.getElementById("grammarModal");
+  const grammarBackdrop = document.getElementById("grammarBackdrop");
+  const grammarCloseBtn = document.getElementById("grammarCloseBtn");
+
+  function openGrammarModal() {
+    grammarModal.style.display = "flex";
+    document.getElementById("grammarInput").focus();
+  }
+  function closeGrammarModal() {
+    grammarModal.style.display = "none";
+  }
+
+  grammarBackdrop.addEventListener("click", closeGrammarModal);
+  grammarCloseBtn.addEventListener("click", closeGrammarModal);
+  window.addEventListener("keydown", e => { if (e.key === "Escape") closeGrammarModal(); });
+
+  // --- Grammar check logic (simple example) ---
+  const grammarCheckBtn = document.getElementById("grammarCheckBtn");
+  const grammarOutput = document.getElementById("grammarOutput");
+
+  grammarCheckBtn.addEventListener("click", () => {
+    const text = document.getElementById("grammarInput").value.trim();
+    if (!text) return grammarOutput.innerHTML = "<em>Please enter text to check.</em>";
+
+    // A tiny demo check: look for "your" misuse and double spaces
+    let suggestions = [];
+    if (text.match(/your\b/gi)) suggestions.push("Did you mean *you're*?");
+    if (text.match(/  +/)) suggestions.push("Try removing extra spaces.");
+    if (!suggestions.length) suggestions.push("✅ No grammar issues found!");
+
+    grammarOutput.innerHTML = suggestions.map(s => `<div>• ${s}</div>`).join("");
+  });
+</script>
