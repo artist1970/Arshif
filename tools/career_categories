@@ -1,0 +1,16 @@
+/* ===================== CAREER ZONES ===================== */
+const careerZones = [
+  { id: "arts_entertainment", name: "Arts & Entertainment", range: [401,410], description: "Creative, expressive, and innovative. Drawn to visual, musical, or literary arts. Ideal for careers involving self-expression, design, or storytelling."},
+  { id: "architecture_engineering", name: "Architecture & Engineering", range: [411,420], description: "Analytical and structural thinkers who enjoy building, designing, and solving technical challenges."},
+  { id: "business_management", name: "Business Management & Administration", range: [421,430], description: "Organized leaders focused on systems, operations, and strategy. Thrive in structured, goal-driven environments."},
+  { id: "communications", name: "Communications", range: [431,440], description: "Strong verbal and written communicators. Skilled in persuasion, storytelling, and relationship-building."},
+  { id: "community_services", name: "Community & Social Services", range: [441,450], description: "Empathetic, supportive, and driven to help others. Excel in social work, counseling, and humanitarian roles."},
+  { id: "education", name: "Education", range: [451,460], description: "Patient, knowledgeable, and motivated by teaching, mentoring, and intellectual growth."},
+  { id: "science_technology", name: "Science & Technology", range: [461,470], description: "Curious and analytical minds who love research, data, and experimentation. Thrive in innovation-focused careers."},
+  { id: "installation_maintenance", name: "Installation, Repair & Maintenance", range: [471,480], description: "Hands-on problem solvers who enjoy fixing, maintaining, and improving physical systems."},
+  { id: "farming_forestry", name: "Farming, Fishing & Forestry", range: [481,490], description: "Grounded, practical, and connected to nature. Value sustainability, balance, and independence."},
+  { id: "government", name: "Government", range: [491,500], description: "Civic-minded individuals who value structure, fairness, and public service. Ideal for administration or policy work."},
+  { id: "health_medicine", name: "Health & Medicine", range: [501,510], description: "Compassionate and detail-oriented. Thrive in health, caregiving, and scientific wellness roles."},
+  { id: "law_policy", name: "Law & Public Policy", range: [511,520], description: "Ethical and analytical. Excel at interpreting rules, debating, and protecting justice and order."},
+  { id: "sales_service", name: "Sales & Customer Service", range: [521,525], description: "Outgoing, persuasive, and people-oriented. Excel in negotiation, client relations, and solution-based roles."}
+];
