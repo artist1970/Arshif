@@ -1,0 +1,166 @@
+<script>
+// ==========================
+//  FILE SAVING & EXPORT v2.1
+// ==========================
+
+// Internal file cache
+let files = JSON.parse(localStorage.getItem('proseFiles') || '[]');
+let activeId = null;
+const editor = document.getElementById('editor');
+
+// --- Core Local Save ---
+function saveFiles() {
+  localStorage.setItem('proseFiles', JSON.stringify(files));
+}
+function updateLastSaved() {
+  const el = document.getElementById('lastSaved');
+  if (el) el.innerText = "Last saved: " + new Date().toLocaleTimeString();
+}
+
+// --- Manual Save ---
+function manualSave() {
+  if (!activeId) return;
+  const doc = files.find(f => f.id === activeId);
+  if (!doc) return;
+  doc.title = document.getElementById('docTitle').value || 'Untitled';
+  doc.tags = document.getElementById('docTags').value;
+  doc.html = editor.innerHTML;
+  doc.updated = Date.now();
+  saveFiles();
+  renderFileList();
+  updateLastSaved();
+}
+
+// --- Save As (creates new internal doc) ---
+function openSaveAsModal() {
+  document.getElementById('saveAsModal').style.display = 'flex';
+  document.getElementById('saveAsTitle').value = document.getElementById('docTitle').value;
+  document.getElementById('saveAsTags').value = document.getElementById('docTags').value;
+}
+function closeSaveAsModal() {
+  document.getElementById('saveAsModal').style.display = 'none';
+}
+function confirmSaveAs() {
+  const title = document.getElementById('saveAsTitle').value || "Untitled Copy";
+  const tags = document.getElementById('saveAsTags').value;
+  const html = editor.innerHTML;
+  const id = 'doc_' + Math.random().toString(36).slice(2);
+  files.unshift({ id, title, tags, html, updated: Date.now(), versions: [] });
+  activeId = id;
+  saveFiles();
+  renderFileList();
+  closeSaveAsModal();
+  updateLastSaved();
+}
+
+// ==========================
+//  EXPORT TO DEVICE SECTION
+// ==========================
+function exportFile(type = "html") {
+  if (!activeId) return alert("No active document to export.");
+
+  const doc = files.find(f => f.id === activeId);
+  if (!doc) return alert("File not found.");
+
+  let blob, filename = sanitizeFilename(doc.title);
+
+  switch (type) {
+    case "txt":
+      blob = new Blob([stripHTML(doc.html)], { type: "text/plain" });
+      filename += ".txt";
+      break;
+    case "md":
+      blob = new Blob([htmlToMarkdown(doc.html)], { type: "text/markdown" });
+      filename += ".md";
+      break;
+    case "docx":
+      blob = new Blob([`
+        <html xmlns:o='urn:schemas-microsoft-com:office:office' 
+              xmlns:w='urn:schemas-microsoft-com:office:word' 
+              xmlns='http://www.w3.org/TR/REC-html40'>
+        <head><meta charset='utf-8'></head><body>${doc.html}</body></html>
+      `], { type: "application/msword" });
+      filename += ".doc";
+      break;
+    default:
+      blob = new Blob([doc.html], { type: "text/html" });
+      filename += ".html";
+  }
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// --- Helper: Sanitize filename ---
+function sanitizeFilename(name) {
+  return name.replace(/[^a-z0-9_\-]+/gi, "_").substring(0, 40);
+}
+
+// --- Helper: Strip HTML for plain text ---
+function stripHTML(html) {
+  const tmp = document.createElement("div");
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || "";
+}
+
+// --- Helper: Basic HTML → Markdown (lightweight) ---
+function htmlToMarkdown(html) {
+  return html
+    .replace(/<h1>(.*?)<\/h1>/g, "# $1\n")
+    .replace(/<h2>(.*?)<\/h2>/g, "## $1\n")
+    .replace(/<strong>(.*?)<\/strong>/g, "**$1**")
+    .replace(/<em>(.*?)<\/em>/g, "_$1_")
+    .replace(/<br>/g, "\n")
+    .replace(/<[^>]+>/g, "");
+}
+
+// --- File List UI ---
+function renderFileList() {
+  const div = document.getElementById('fileList');
+  div.innerHTML = '';
+  files.forEach(f => {
+    const b = document.createElement('button');
+    b.innerText = f.title;
+    b.className = (f.id === activeId) ? 'active-file' : '';
+    b.onclick = () => {
+      activeId = f.id;
+      editor.innerHTML = f.html;
+      document.getElementById('docTitle').value = f.title;
+      document.getElementById('docTags').value = f.tags || '';
+      renderFileList();
+      updateWordCount && updateWordCount();
+    };
+    div.appendChild(b);
+  });
+}
+
+// ==========================
+//  OPTIONAL: Save As Modal UI
+// ==========================
+// Example UI block:
+// <div id="saveAsModal" class="modal" style="display:none;">
+//   <div class="modal-content">
+//     <h3>Save As</h3>
+//     <input id="saveAsTitle" placeholder="Title">
+//     <input id="saveAsTags" placeholder="Tags">
+//     <div>
+//       <button onclick="confirmSaveAs()">Save Copy</button>
+//       <button onclick="closeSaveAsModal()">Cancel</button>
+//     </div>
+//     <hr>
+//     <label>Export File As:</label>
+//     <div>
+//       <button onclick="exportFile('html')">HTML</button>
+//       <button onclick="exportFile('txt')">TXT</button>
+//       <button onclick="exportFile('md')">Markdown</button>
+//       <button onclick="exportFile('docx')">Word</button>
+//     </div>
+//   </div>
+// </div>
+</script>
