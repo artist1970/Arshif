@@ -1,0 +1,253 @@
+<!-- ============================
+     Grammar & AI Assistant Modals
+     Vanilla JS – Fully Integrated v2.0
+=============================== -->
+
+<!-- Grammar Modal -->
+<div class="modal" id="grammarModal" aria-modal="true" role="dialog" style="display:none;">
+  <div class="modal-backdrop" id="grammarBackdrop"></div>
+  <div class="modal-content">
+    <button class="modal-close" id="closeGrammar">✕</button>
+    <h3>Grammar & Spell Check</h3>
+
+    <textarea id="grammarInput" placeholder="Type or paste your text..." rows="6"></textarea>
+
+    <div class="button-row">
+      <button id="grammarCheckBtn">Check Grammar</button>
+      <button id="sendToAI">Deep Analysis 🤖</button>
+    </div>
+
+    <div id="grammarOutput" class="output"></div>
+  </div>
+</div>
+
+<!-- AI Assistant Modal -->
+<div class="modal" id="aiModal" aria-modal="true" role="dialog" style="display:none;">
+  <div class="modal-backdrop" id="aiBackdrop"></div>
+  <div class="modal-content">
+    <button class="modal-close" id="closeAI">✕</button>
+    <h3>AI Assistant</h3>
+
+    <textarea id="aiInput" placeholder="Ask AI or paste text..." rows="5"></textarea>
+
+    <div class="button-row">
+      <button id="aiSuggestBtn">Analyze ✨</button>
+      <button id="backToGrammar">Back to Grammar</button>
+    </div>
+
+    <div id="aiOutput" class="output"></div>
+  </div>
+</div>
+
+<style>
+/* ===== Modal layout ===== */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.25s ease;
+}
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+}
+.modal-content {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.3s ease;
+}
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #555;
+}
+textarea {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  font-family: inherit;
+  resize: vertical;
+}
+.button-row {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+button {
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+}
+button:hover { background: #4338ca; }
+.output {
+  margin-top: 14px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #f9fafb;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 60px;
+}
+.suggestion {
+  background: #e0e7ff;
+  color: #1e3a8a;
+  padding: 4px 6px;
+  border-radius: 6px;
+  margin: 2px 0;
+  cursor: pointer;
+  display: inline-block;
+  transition: background 0.2s;
+}
+.suggestion:hover {
+  background: #c7d2fe;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<script>
+/* ===== Modal Controls ===== */
+const grammarModal = document.getElementById("grammarModal");
+const aiModal = document.getElementById("aiModal");
+const grammarBackdrop = document.getElementById("grammarBackdrop");
+const aiBackdrop = document.getElementById("aiBackdrop");
+
+function openGrammarModal() {
+  grammarModal.style.display = "flex";
+  document.getElementById("grammarInput").focus();
+}
+function closeGrammarModal() { grammarModal.style.display = "none"; }
+function openAIModal() {
+  aiModal.style.display = "flex";
+  document.getElementById("aiInput").focus();
+}
+function closeAIModal() { aiModal.style.display = "none"; }
+
+document.getElementById("closeGrammar").onclick = closeGrammarModal;
+document.getElementById("closeAI").onclick = closeAIModal;
+grammarBackdrop.onclick = closeGrammarModal;
+aiBackdrop.onclick = closeAIModal;
+window.addEventListener("keydown", e => {
+  if (e.key === "Escape") { closeGrammarModal(); closeAIModal(); }
+});
+
+/* ===== Grammar Logic ===== */
+document.getElementById("grammarCheckBtn").onclick = () => {
+  const input = document.getElementById("grammarInput").value.trim();
+  const output = document.getElementById("grammarOutput");
+  if (!input) return output.innerHTML = "<em>Please enter text first.</em>";
+
+  let suggestions = [];
+
+  // simple grammar detections
+  if (input.match(/your\b/gi)) suggestions.push({ issue:"'your' misuse", fix:"you're" });
+  if (input.match(/  +/)) suggestions.push({ issue:"extra spaces", fix:"remove extras" });
+  if (input.match(/ alot/gi)) suggestions.push({ issue:"'alot' is not a word", fix:"a lot" });
+  if (input.match(/\bi\b(?!['’]m| am)/)) suggestions.push({ issue:"capitalization for 'I'", fix:"I" });
+
+  if (!suggestions.length) return output.innerHTML = "✅ No grammar issues found.";
+
+  output.innerHTML = "<strong>Suggestions:</strong><br>" +
+    suggestions.map((s, i) =>
+      `<div class='suggestion' onclick='applySuggestion(${i})'>
+        • ${s.issue} → <b>${s.fix}</b>
+      </div>`
+    ).join("<br>");
+
+  // store suggestions globally
+  window.currentSuggestions = suggestions;
+};
+
+function applySuggestion(i) {
+  const textArea = document.getElementById("grammarInput");
+  const s = window.currentSuggestions[i];
+  // naive replace
+  textArea.value = textArea.value.replace(new RegExp(s.issue.split(" ")[0], "gi"), s.fix);
+  document.getElementById("grammarOutput").innerHTML =
+    `<div style='color:green;'>✅ Applied: ${s.fix}</div>`;
+}
+
+/* ===== AI Integration ===== */
+document.getElementById("sendToAI").onclick = () => {
+  const text = document.getElementById("grammarInput").value.trim();
+  if (!text) return alert("Please enter text first.");
+  document.getElementById("aiInput").value = text;
+  grammarModal.style.display = "none";
+  aiModal.style.display = "flex";
+  aiAnalyze(text);
+};
+
+document.getElementById("aiSuggestBtn").onclick = () => {
+  const text = document.getElementById("aiInput").value.trim();
+  if (!text) return alert("Please enter something for the AI.");
+  aiAnalyze(text);
+};
+
+document.getElementById("backToGrammar").onclick = () => {
+  aiModal.style.display = "none";
+  grammarModal.style.display = "flex";
+};
+
+/* ===== AI Analysis Logic ===== */
+function aiAnalyze(text) {
+  const out = document.getElementById("aiOutput");
+  out.innerHTML = "<em>Thinking...</em>";
+
+  setTimeout(() => {
+    const ideas = [];
+
+    if (text.length < 40)
+      ideas.push("Expand your thought with an example or extra detail.");
+    if (text.match(/very|really/gi))
+      ideas.push("Replace 'very' or 'really' with a stronger adjective.");
+    if (!text.match(/[.!?]$/))
+      ideas.push("Add proper punctuation at the end of sentences.");
+    ideas.push("Consider sentence variety for smoother rhythm.");
+
+    out.innerHTML = "<strong>AI Suggestions (click to apply):</strong><br>" +
+      ideas.map((idea, i) =>
+        `<div class='suggestion' onclick='applyAISuggestion(${i})'>${idea}</div>`
+      ).join("<br>");
+
+    window.aiSuggestions = ideas;
+  }, 700);
+}
+
+function applyAISuggestion(i) {
+  const input = document.getElementById("aiInput");
+  const suggestion = window.aiSuggestions[i];
+  // Append AI note inline
+  input.value += `\n\n[AI Suggestion]: ${suggestion}`;
+  document.getElementById("aiOutput").innerHTML =
+    `<div style='color:green;'>✅ Applied suggestion to text.</div>`;
+}
+
+/* ===== External triggers (optional) ===== */
+// openGrammarModal();
+// openAIModal();
+</script>
