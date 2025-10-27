@@ -1,0 +1,36 @@
+{matrixOpen && (
+  <div className="absolute right-6 left-2 bg-[#4b3f35] rounded-md shadow-lg p-2 grid grid-cols-1 gap-1 text-serif sans z-10 border border-[#8b7355]">
+    {[
+      "Home",
+      "Events",
+      "Profile",
+      "Matrix",
+      "Pearl's Palette",
+      "My Art Gallery",
+      "Sacred Springs",
+      "Abundance",
+      "Hopes Haven",
+      "Prose",
+      "Arshif",
+      "Archaemenes Academy",
+      "ORYNX",
+      "GAMUT Engine",
+      "Arella Hollo",
+    ].map((item, idx) => (
+      <button
+        key={idx}
+        className="bg-[#615647] hover:bg-[#6b8e23] hover:text-[#2c2a26] rounded p-1 border border-[#8b7355] relative z-20"
+        onClick={() => {
+          if (["Home", "Events", "Profile", "Matrix"].includes(item)) {
+            setActiveTab(item.toLowerCase() as TabKey);
+          } else {
+            setMatrixTab(item);
+          }
+          setMatrixOpen(false);
+        }}
+      >
+        {item}
+      </button>
+    ))}
+  </div>
+)}
